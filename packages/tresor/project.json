@@ -1,0 +1,39 @@
+{
+  "root": "packages/tresor",
+  "sourceRoot": "packages/tresor/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/packages/tresor",
+        "main": "packages/tresor/src/index.ts",
+        "tsConfig": "packages/tresor/tsconfig.app.json",
+        "assets": ["packages/tresor/*.md"]
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/js:node",
+      "options": {
+        "buildTarget": "tresor:build"
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["packages/tresor/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/packages/tresor"],
+      "options": {
+        "jestConfig": "packages/tresor/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}
