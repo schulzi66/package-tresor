@@ -1,8 +1,9 @@
+import { authRouter } from './app/routing/auth.router';
 import * as dotenv from 'dotenv';
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
-import { tresorRouter } from './app/tresor.router';
+import { storeRouter } from './app/routing/store.router';
 import { errorHandler } from './app/middleware/error.middleware';
 import { notFoundHandler } from './app/middleware/not-found.middleware';
 
@@ -20,7 +21,8 @@ app.use(helmet());
 app.use(cors());
 app.use(express.json());
 
-app.use('/api/tresor', tresorRouter);
+app.use('/api/store', storeRouter);
+app.use('/api/auth', authRouter);
 
 app.use(errorHandler);
 app.use(notFoundHandler);

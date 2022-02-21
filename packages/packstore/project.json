@@ -1,36 +1,36 @@
 {
-  "root": "packages/tresor",
-  "sourceRoot": "packages/tresor/src",
+  "root": "packages/packstore",
+  "sourceRoot": "packages/packstore/src",
   "projectType": "application",
   "targets": {
     "build": {
       "executor": "@nrwl/js:tsc",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/packages/tresor",
-        "main": "packages/tresor/src/index.ts",
-        "tsConfig": "packages/tresor/tsconfig.app.json",
-        "assets": ["packages/tresor/*.md"]
+        "outputPath": "dist/packages/packstore",
+        "main": "packages/packstore/src/index.ts",
+        "tsConfig": "packages/packstore/tsconfig.app.json",
+        "assets": ["packages/packstore/*.md"]
       }
     },
     "serve": {
       "executor": "@nrwl/js:node",
       "options": {
-        "buildTarget": "tresor:build"
+        "buildTarget": "packstore:build"
       }
     },
     "lint": {
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["packages/tresor/**/*.ts"]
+        "lintFilePatterns": ["packages/packstore/**/*.ts"]
       }
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/packages/tresor"],
+      "outputs": ["coverage/packages/packstore"],
       "options": {
-        "jestConfig": "packages/tresor/jest.config.js",
+        "jestConfig": "packages/packstore/jest.config.js",
         "passWithNoTests": true
       }
     }

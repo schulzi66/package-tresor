@@ -1,0 +1,10 @@
+{
+  "name": "@schulzi66/packstore",
+  "version": "0.0.1",
+  "type": "commonjs",
+  "main": "src/index.js",
+  "bin": {
+    "@schulzi66/packstore": "src/index.js",
+    "packstore": "src/index.js"
+  }
+}

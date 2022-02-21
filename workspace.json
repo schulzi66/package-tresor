@@ -1,7 +1,7 @@
 {
   "version": 2,
   "projects": {
-    "package-tresor": "packages/package-tresor",
-    "tresor": "packages/tresor"
+    "packstore": "packages/packstore",
+    "store": "packages/store"
   }
 }
