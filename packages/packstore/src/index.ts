@@ -11,7 +11,7 @@ import { registerCmd } from './app/commands/register.command';
 // import figlet from 'figlet';
 // import { createSpinner } from 'nanospinner';
 import { Command } from 'commander';
-import { tryInitConfig } from './app/file.service';
+import { tryInitConfig } from './app/services/file.service';
 const cli = new Command();
 
 (async () => {
@@ -25,9 +25,9 @@ const cli = new Command();
 
   cli
     .command('register')
-    .description('Registers a new user')
-    .arguments('[user] [pwd]')
-    .action((name: string, pwd: string) => registerCmd(name, pwd));
+    .description('Register a new user')
+    .arguments('[user]')
+    .action((name: string) => registerCmd(name));
 
   cli
     .command('add')
@@ -36,16 +36,6 @@ const cli = new Command();
     .action((name: string) => addCmd(name));
 
   cli.parse(process.argv);
-
-  // console.log(process.argv);
-
-  //   await initCli();
-  //   parseArgumentsIntoOptions(process.argv);
-
-  //   const name = await askName();
-  //   const password = await askPassword();
-
-  //   await createUser(name, password);
 })();
 
 // main();

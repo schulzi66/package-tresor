@@ -9,7 +9,6 @@ export const authRouter = express.Router();
 
 authRouter.post('/register', async (req: TypedRequestBody<Auth>, res: Response) => {
   try {
-      console.log(req.body);
     const newUser: User = await UserService.registerUser(req.body.name, req.body.password);
 
     res.status(201).send(JSON.stringify(newUser));

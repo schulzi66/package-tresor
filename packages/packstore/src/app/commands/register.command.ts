@@ -1,20 +1,26 @@
-import { createUser } from '../api.service';
-import { writeConfig } from '../file.service';
+import { createUser } from '../services/api.service';
+import { isUserRegisteredLocally, writeConfig } from '../services/file.service';
 import { User } from '../models/user.model';
-import { askName, askPassword } from './../input.service';
+import { askName, askPassword, askOverrideRegisteredUser } from '../services/input.service';
 
-export const registerCmd = async (name: string | undefined, pwd: string | undefined) => {
+export const registerCmd = async (name: string | undefined): Promise<void> => {
+  if (await isUserRegisteredLocally()) {
+    if (!(await askOverrideRegisteredUser())) {
+      return;
+    }
+
+    name = undefined;
+  }
+
   if (!name) {
     name = await askName();
   }
 
-  if (!pwd) {
-    pwd = await askPassword();
-  }
-
-  const user: User = await createUser(name!, pwd!);
-
-
-  console.log(user);
-  writeConfig({ user: user });
+  const pwd = await askPassword();
+  await createUser(name!, pwd!)
+    .then((user: User | undefined) => {
+      writeConfig({ user: user });
+      console.log('TODO: Improve output');
+    })
+    .catch((error) => console.log(error));
 };
