@@ -1,9 +1,9 @@
-import { createUser } from '../services/api.service';
+import { createUser, loginUser } from '../services/api.service';
 import { isUserConfiguredLocally, writeConfig } from '../services/file.service';
 import { User } from '../models/user.model';
 import { askName, askPassword, askOverrideConfiguredUser } from '../services/input.service';
 
-export const registerCmd = async (name: string | undefined): Promise<void> => {
+export const loginCmd = async (name: string | undefined): Promise<void> => {
   if (await isUserConfiguredLocally()) {
     if (!(await askOverrideConfiguredUser())) {
       return;
@@ -18,10 +18,10 @@ export const registerCmd = async (name: string | undefined): Promise<void> => {
 
   const pwd = await askPassword();
 
-  await createUser(name!, pwd!)
+  await loginUser(name!, pwd!)
     .then((user: User | undefined) => {
       writeConfig({ user: user });
-      console.log('TODO: Improve output', user);
+      console.log('TODO: Improve output login', user);
     })
     .catch((error) => console.log(error));
 };

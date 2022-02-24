@@ -1,5 +1,11 @@
 import inquirer from 'inquirer';
 import { Response } from 'node-fetch';
+// import chalk from 'chalk';
+// import inquirer from 'inquirer';
+// import gradient from 'gradient-string';
+// import chalkAnimation from 'chalk-animation';
+// import figlet from 'figlet';
+// import { createSpinner } from 'nanospinner';
 
 export const askName = async (): Promise<string> => {
   const answer = await inquirer.prompt({
@@ -15,17 +21,17 @@ export const askPassword = async (): Promise<string> => {
   const answer = await inquirer.prompt({
     name: 'pwd',
     type: 'password',
-    message: 'Choose a password:',
+    message: 'Provide a password:',
   });
 
   return answer.pwd;
 };
 
-export const askOverrideRegisteredUser = async (): Promise<boolean> => {
+export const askOverrideConfiguredUser = async (): Promise<boolean> => {
   const answer = await inquirer.prompt({
     name: 'choice',
     type: 'confirm',
-    message: 'A user is already registered. Do you want to override the user?',
+    message: 'A user was already configured locally. Do you want to override the user?',
   });
 
   return answer.choice;

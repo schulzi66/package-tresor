@@ -10,7 +10,7 @@ export const tryInitConfig = async (): Promise<void> => {
   configDirPath = getConfigDir();
   createConfigDirIfNotExists();
 
-  if (!(await configExistsInGlobalNodeModuleFolder())) {
+  if (!(await configExistsInConfigDir())) {
     writeConfig();
   }
 };
@@ -26,13 +26,13 @@ export const writeConfig = (data?: Store | undefined): void => {
   fs.writeFileSync(getConfigPath(), JSON.stringify(data ?? {}, null, 2), 'utf8');
 };
 
-export const isUserRegisteredLocally = async (): Promise<boolean> => {
+export const isUserConfiguredLocally = async (): Promise<boolean> => {
   const store: Store = readConfig();
 
   return store.user?.id !== undefined && store.user?.name !== undefined && store.user?.password !== undefined;
 };
 
-const configExistsInGlobalNodeModuleFolder = async (): Promise<boolean> => {
+const configExistsInConfigDir = async (): Promise<boolean> => {
   return new Promise((r) => fs.access(getConfigPath(), fs.constants.F_OK | fs.constants.W_OK, (e) => r(!e)));
 };
 

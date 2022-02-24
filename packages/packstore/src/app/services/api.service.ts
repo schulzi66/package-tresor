@@ -24,6 +24,28 @@ export const createUser = async (userName: string, password: string): Promise<Us
   }
 };
 
+export const loginUser = async (userName: string, password: string): Promise<User | undefined> => {
+    try {
+        const response = await fetch('http://localhost:7000/api/auth/login', {
+          method: 'post',
+          body: JSON.stringify({ name: userName, password: password }),
+          headers: { 'Content-Type': 'application/json' },
+        });
+    
+        if (!response.ok) {
+          handleInvalidApiStatus(response);
+    
+          return;
+        }
+    
+        const user: User = JSON.parse(await response.text());
+    
+        return user;
+      } catch (error) {
+        return Promise.reject(error);
+      }
+}
+
 export const addPackage = async (userId: string, packageName: string): Promise<boolean | undefined> => {
   try {
     const response = await fetch('http://localhost:7000/api/store', {
