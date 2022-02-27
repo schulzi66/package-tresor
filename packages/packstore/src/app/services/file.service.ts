@@ -1,6 +1,9 @@
 import fs from 'fs';
 import { Store } from '../models/store.model';
 import path from 'path';
+import { handleUserNotInitialized } from './input.service';
+import { loginCmd } from '../commands/login.command';
+import { registerCmd } from '../commands/register.command';
 
 const fileDescriptor = 'packstore.json';
 const packagePathDescriptor = 'packstore';
@@ -20,6 +23,26 @@ export const readConfig = (): Store => {
   const store: Store = JSON.parse(rawData === '' ? '{}' : rawData);
 
   return store;
+};
+
+export const readConfigAndValidate = async (): Promise<Store | never> => {
+  let store: Store = readConfig();
+
+  if (store.user?.id) {
+    return store;
+  } else {
+    const choice = await handleUserNotInitialized();
+
+    if (choice === 'Login') {
+      await loginCmd(undefined);
+    } else if (choice === 'Register') {
+      await registerCmd(undefined);
+    }
+
+    store = readConfig();
+
+    return store.user?.id ? store : process.exit();
+  }
 };
 
 export const writeConfig = (data?: Store | undefined): void => {

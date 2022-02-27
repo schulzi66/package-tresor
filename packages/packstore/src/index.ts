@@ -7,6 +7,7 @@ import { registerCmd } from './app/commands/register.command';
 import { Command } from 'commander';
 import { tryInitConfig } from './app/services/file.service';
 import { loginCmd } from './app/commands/login.command';
+import { listCmd } from './app/commands/list.command';
 const cli = new Command();
 
 (async () => {
@@ -35,6 +36,11 @@ const cli = new Command();
     .description('Add a package to your packstore')
     .argument('<name>')
     .action((name: string) => addCmd(name));
+
+  cli
+    .command('list')
+    .description('Lists your stored packages')
+    .action(() => listCmd());
 
   cli.parse(process.argv);
 })();

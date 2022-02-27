@@ -37,6 +37,17 @@ export const askOverrideConfiguredUser = async (): Promise<boolean> => {
   return answer.choice;
 };
 
-export const handleInvalidApiStatus = async (response: Response): Promise<void> => {
-  console.warn(`The Server responded with a status code ${response.status} and the following error: \n ${await response.text()}`);
+export const handleInvalidApiStatus = async (response: Response): Promise<string> => {
+  return `The Server responded with a status code ${response.status} and the following error: \n${await response.text()}`;
+};
+
+export const handleUserNotInitialized = async (): Promise<'Login' | 'Register'> => {
+  const answer = await inquirer.prompt({
+    name: 'choice',
+    type: 'list',
+    message: 'It seems like no user is configured yet. Please choose to either',
+    choices: ['Login', 'Register'],
+  });
+
+  return answer.choice;
 };

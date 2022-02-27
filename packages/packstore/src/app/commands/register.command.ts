@@ -19,7 +19,7 @@ export const registerCmd = async (name: string | undefined): Promise<void> => {
   const pwd = await askPassword();
 
   await createUser(name!, pwd!)
-    .then((user: User | undefined) => {
+    .then((user: User) => {
       writeConfig({ user: user });
       console.log('TODO: Improve output', user);
     })

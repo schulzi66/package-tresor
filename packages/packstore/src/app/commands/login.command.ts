@@ -19,9 +19,11 @@ export const loginCmd = async (name: string | undefined): Promise<void> => {
   const pwd = await askPassword();
 
   await loginUser(name!, pwd!)
-    .then((user: User | undefined) => {
+    .then((user: User) => {
       writeConfig({ user: user });
-      console.log('TODO: Improve output login', user);
+      console.log('TODO LOGIN Success: Improve output login', user);
     })
-    .catch((error) => console.log(error));
+    .catch((error) => {
+      console.error('TODO IMPROVE Login error', error);
+    });
 };
