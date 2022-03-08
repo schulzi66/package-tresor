@@ -62,6 +62,26 @@ export const addPackage = async (userId: string, packageName: string): Promise<b
   }
 };
 
+export const removePackage = async (userId: string, packageName: string): Promise<boolean> => {
+    try {
+      const response = await fetch('http://localhost:7000/api/store', {
+        method: 'delete',
+        body: JSON.stringify({ userId, packageName }),
+        headers: { 'Content-Type': 'application/json' },
+      });
+  
+      if (!response.ok) {
+        return Promise.reject(await handleInvalidApiStatus(response));
+      }
+  
+      const data = (await response.json()) as boolean;
+  
+      return data;
+    } catch (error) {
+      return Promise.reject(error);
+    }
+  };
+
 export const listPackages = async (userId: string): Promise<string[]> => {
   try {
     const url = `http://localhost:7000/api/store?${new URLSearchParams({ userId })}`;

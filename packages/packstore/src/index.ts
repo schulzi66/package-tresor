@@ -2,22 +2,21 @@
 
 import { addCmd } from './app/commands/add.command';
 import { registerCmd } from './app/commands/register.command';
-// import { createUser } from './app/api.service';
-
 import { Command } from 'commander';
-import { tryInitConfig } from './app/services/file.service';
 import { loginCmd } from './app/commands/login.command';
 import { listCmd } from './app/commands/list.command';
+import { Config } from './app/services/file.service';
+import { removeCmd } from './app/commands/remove.command';
 const cli = new Command();
 
 (async () => {
-  await tryInitConfig();
-
-  cli.description('Store and easily install your favourite packages without remembering them.');
+  cli.description('Easily store and install your favourite packages without remembering them.');
   cli.name('packstore');
   cli.usage('<command>');
   cli.addHelpCommand(false);
   cli.helpOption(false);
+
+  cli.command('reset', { hidden: true }).action(() => Config.clear());
 
   cli
     .command('register')
@@ -36,6 +35,12 @@ const cli = new Command();
     .description('Add a package to your packstore')
     .argument('<name>')
     .action((name: string) => addCmd(name));
+
+  cli
+    .command('remove')
+    .description('Remove a package from your packstore')
+    .argument('<name>')
+    .action((name: string) => removeCmd(name));
 
   cli
     .command('list')

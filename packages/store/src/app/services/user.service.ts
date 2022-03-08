@@ -1,5 +1,5 @@
 import { User } from '../common/user';
-import { randomUUID, createHash, Hash } from 'crypto';
+import { randomUUID, createHash } from 'crypto';
 
 const userDb: Array<User> = [];
 

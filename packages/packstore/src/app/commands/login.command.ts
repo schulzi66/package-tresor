@@ -1,4 +1,4 @@
-import { createUser, loginUser } from '../services/api.service';
+import { loginUser } from '../services/api.service';
 import { isUserConfiguredLocally, writeConfig } from '../services/file.service';
 import { User } from '../models/user.model';
 import { askName, askPassword, askOverrideConfiguredUser } from '../services/input.service';
