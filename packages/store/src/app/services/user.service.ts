@@ -1,7 +1,9 @@
 import { User } from '../common/user';
-import { randomUUID, createHash } from 'crypto';
+import { createHash, randomUUID } from 'crypto';
 
-const userDb: Array<User> = [];
+const createPasswordHash = (password: string): string => createHash('sha256').update(password).digest('hex');
+
+export const userDb: Array<User> = [];
 
 export const registerUser = async (name: string, password: string): Promise<User> => {
   const foundUser: User | undefined = userDb.find((user: User) => user.name === name);
@@ -23,7 +25,7 @@ export const registerUser = async (name: string, password: string): Promise<User
 };
 
 export const loginUser = async (name: string, password: string): Promise<User> => {
-  const foundUser: User | undefined = userDb.find((user: User) => user.name === name && user.password === createPasswordHash(password));
+  const foundUser: User | undefined = findUserByName(name, password);
   if (foundUser) {
     return foundUser;
   } else {
@@ -31,4 +33,10 @@ export const loginUser = async (name: string, password: string): Promise<User> =
   }
 };
 
-const createPasswordHash = (password: string): string => createHash('sha256').update(password).digest('hex');
+export const findUserByName = (name: string, password: string): User | undefined => {
+  return userDb.find((user: User) => user.name === name && user.password === createPasswordHash(password));
+};
+
+export const findUserById = (id: string, passwordHash: string): User | undefined => {
+  return userDb.find((user: User) => user.id === id && user.password === passwordHash);
+};

@@ -19,7 +19,6 @@ storeRouter.post('/', async (req: TypedRequestBody<{ userId: string; packageName
 });
 
 storeRouter.delete('/', async (req: TypedRequestBody<{ userId: string; packageName: string }>, res: Response) => {
-  console.log(req.body.userId, req.body.packageName);
   await StoreService.removePackage(req.body.packageName);
 
   res.status(201).send(true);
