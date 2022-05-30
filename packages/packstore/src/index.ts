@@ -7,6 +7,18 @@ import { loginCmd } from './app/commands/login.command';
 import { listCmd } from './app/commands/list.command';
 import { Config } from './app/services/file.service';
 import { removeCmd } from './app/commands/remove.command';
+import { initializeApp } from 'firebase/app';
+
+const firebaseConfig = {
+    apiKey: 'AIzaSyBJRD-qjhtcWldBH_-RHiUL6S3aAPq_OC4',
+    authDomain: 'packstore-api.firebaseapp.com',
+    projectId: 'packstore-api',
+    storageBucket: 'packstore-api.appspot.com',
+    messagingSenderId: '289680057422',
+    appId: '1:289680057422:web:11991338dcc1e896144f1f',
+    measurementId: 'G-MR60SPER49',
+  };
+
 const cli = new Command();
 
 (async () => {
@@ -15,6 +27,8 @@ const cli = new Command();
   cli.usage('<command>');
   cli.addHelpCommand(false);
   cli.helpOption(false);
+
+  initializeApp(firebaseConfig);
 
   cli.command('reset', { hidden: true }).action(() => Config.clear());
 

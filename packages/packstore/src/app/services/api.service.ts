@@ -2,6 +2,7 @@ import fetch, { Headers } from 'node-fetch';
 import { handleInvalidApiStatus } from './input.service';
 import { User } from '../models/user.model';
 import { Config } from './file.service';
+import { Auth, connectAuthEmulator, createUserWithEmailAndPassword, getAuth, indexedDBLocalPersistence, setPersistence, signInWithCredential, signInWithCustomToken, signInWithEmailAndPassword, UserCredential } from 'firebase/auth';
 
 const createHeaders = (withAuth = true): Headers => {
   const headers: Headers = new Headers();
@@ -14,24 +15,39 @@ const createHeaders = (withAuth = true): Headers => {
   return headers;
 };
 
-export const createUser = async (userName: string, password: string): Promise<User> => {
-  try {
-    const response = await fetch('http://localhost:7000/api/auth/register', {
-      method: 'post',
-      body: JSON.stringify({ name: userName, password: password }),
-      headers: createHeaders(false),
-    });
+export const createUser = async (userName: string, password: string): Promise<any> => {
+//   try {
+      const auth: Auth = getAuth();
+      connectAuthEmulator(auth, 'http://localhost:9099');
 
-    if (!response.ok) {
-      return Promise.reject(await handleInvalidApiStatus(response));
-    }
+      const credentials: UserCredential = await createUserWithEmailAndPassword(auth, userName, password);
 
-    const user: User = JSON.parse(await response.text());
+      return credentials.user;
+    //    signInWithEmailAndPassword(auth, userName, password).then((user: UserCredential) => {
+    //        console.log(user);
+    //    });
+    //   setPersistence(auth, indexedDBLocalPersistence).then(() => {
+    //       return  signInWithEmailAndPassword(auth, userName, password);
+    //   });
 
-    return user;
-  } catch (error) {
-    return Promise.reject(error);
-  }
+
+
+//     const response = await fetch('http://localhost:7000/api/auth/register', {
+//       method: 'post',
+//       body: JSON.stringify({ name: userName, password: password }),
+//       headers: createHeaders(false),
+//     });
+
+//     if (!response.ok) {
+//       return Promise.reject(await handleInvalidApiStatus(response));
+//     }
+
+//     const user: User = JSON.parse(await response.text());
+
+//     return user;
+//   } catch (error) {
+//     return Promise.reject(error);
+//   }
 };
 
 export const loginUser = async (userName: string, password: string): Promise<User> => {
